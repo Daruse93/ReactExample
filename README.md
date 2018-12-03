@@ -1,6 +1,6 @@
 # Пример работы React-приложения
 
-Разработано с помощью [Create React App](https://github.com/facebook/create-react-app).
+Разработано с помощью [Create React App](https://github.com/facebook/create-react-app) и [Redux](https://react-redux.js.org/)
 
 ## Инструкция
 
