@@ -39,7 +39,7 @@ class Article extends Component {
 
     render() {
         const article = this.props.article;
-        const bigArticle = this.props.bigArticle ? 'col-6' : 'col-4';
+        const bigArticle = this.props.bigArticle ? 'col-sm-12 col-md-6' : 'col-sm-6 col-md-4';
         let customStyles = {
             backgroundColor: this.state.cardStyle.background,
             color: this.state.cardStyle.text,
