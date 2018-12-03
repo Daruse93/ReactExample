@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+//import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 import Article from "./Article";
 
 class ArticleList extends Component {
@@ -34,7 +36,6 @@ class ArticleList extends Component {
     };
 
     render() {
-
         let articles = [];
         for (let i = 0; i < this.state.articleLast; i++) {
             articles.push(this.props.articles[i]);
@@ -82,4 +83,10 @@ class ArticleList extends Component {
     }
 }
 
-export default ArticleList;
+function mapStateToProps(state) {
+    return{
+        articles: state.Articles
+    }
+}
+
+export default connect(mapStateToProps)(ArticleList);
