@@ -1,27 +1,26 @@
 import React, {Component} from 'react';
-
-import {Provider} from 'react-redux';
-import {createStore} from 'redux';
-import allReducers from '../store';
-
-// import './App.css';
+import {BrowserRouter, Route, Switch } from 'react-router-dom'
 import Header from './Header';
-import ArticleList from './ArticleList';
+import Main from './Main';
+import ArticleNew from './ArticleNew';
 import configSite from '../config';
-
 
 class App extends Component {
 
     getConfigName = (value) => configSite[value];
 
     render() {
-        const store = createStore(allReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
         return (
             <div>
-                <Header siteName={this.getConfigName('siteName')}/>
-                <Provider store={store}>
-                    <ArticleList/>
-                </Provider>
+                <BrowserRouter>
+                    <div className="primary-layout">
+                        <Header siteName={this.getConfigName('siteName')}/>
+                        <Switch>
+                            <Route exact path="/" component={Main} />
+                            <Route exact path="/test" component={ArticleNew} />
+                        </Switch>
+                    </div>
+                </BrowserRouter>
             </div>
         )
     }

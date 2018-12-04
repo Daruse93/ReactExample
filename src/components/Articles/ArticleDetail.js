@@ -4,9 +4,7 @@ import {connect} from 'react-redux';
 class ArticleDetail extends Component{
     render(){
         if (!this.props.article){
-            return(
-                <p>Article is not selected</p>
-            )
+            return(<p>Article is not selected</p>)
         }
         return(
             <div>
@@ -21,7 +19,7 @@ class ArticleDetail extends Component{
 function mapStateToProps(state) {
     return{
         article: state.ArticleDetail
-    }
+    };
 }
 
 export default connect(mapStateToProps)(ArticleDetail);
