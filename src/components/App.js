@@ -8,7 +8,7 @@ import allReducers from '../store';
 import Header from './Header';
 import ArticleList from './ArticleList';
 import configSite from '../config';
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 class App extends Component {
 

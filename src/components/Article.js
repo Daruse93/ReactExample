@@ -1,4 +1,7 @@
 import React, {Component} from 'react';
+import {bindActionCreators} from "redux";
+import {connect} from "react-redux";
+import {select} from "../actions";
 
 class Article extends Component {
 
@@ -54,12 +57,14 @@ class Article extends Component {
                             {(article.text).substr(0,200)}
                             {((article.text).length > 200) ? '...' : ''}
                         </p>
+                        <p>
+                            <small className="text-muted">{(new Date(article.date)).toDateString()}</small>
+                        </p>
                         <div className="d-flex justify-content-between align-items-center">
                             <div className="btn-group">
+                                <button type="button" onClick={() => this.props.select(article)} data-toggle="modal" data-target="#moreModal" className="btn btn-sm btn-outline-secondary">View</button>
                                 <button type="button" onClick={this.handleChangeColor} className="btn btn-sm btn-outline-secondary">Change Color</button>
-                                {/*<button type="button" className="btn btn-sm btn-outline-secondary">Edit</button>*/}
                             </div>
-                            <small className="text-muted">{(new Date(article.date)).toDateString()}</small>
                         </div>
                     </div>
                 </div>
@@ -68,4 +73,8 @@ class Article extends Component {
     }
 }
 
-export default Article;
+function matchDispatchToProps(dispatch) {
+    return bindActionCreators({select: select}, dispatch);
+}
+
+export default connect('',matchDispatchToProps)(Article);
