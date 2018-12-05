@@ -1,11 +1,4 @@
-import {combineReducers} from 'redux';
-import ArticlesReducers from './Articles';
-import ArticleDetail from './ArticleDetail';
+import {createStore} from 'redux';
+import allReducers from '../reducers';
 
-
-const allReducers = combineReducers ({
-    Articles: ArticlesReducers,
-    ArticleDetail: ArticleDetail,
-});
-
-export default allReducers;
+export default createStore(allReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());

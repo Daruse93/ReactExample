@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import {select} from "../../actions";
+import {selectArticle} from "../../actions/ArticleActions";
+import axios from "axios";
 
 class Article extends Component {
 
@@ -31,7 +31,6 @@ class Article extends Component {
         };
     }
 
-
     handleChangeColor = () =>{
         let newCardStyleCounter = this.state.cardStyleCounter < Object.keys(this.cardStyle).length ? (this.state.cardStyleCounter + 1) : 1;
         this.setState({
@@ -40,29 +39,35 @@ class Article extends Component {
         });
     };
 
+    showArticle = () => {
+        axios.get(`https://jsonplaceholder.typicode.com/posts/${this.props.id}`)
+            .then(response => {
+                console.log(response.data);
+                this.props.dispatch(selectArticle(response.data))
+            })
+    };
+
     render() {
-        const article = this.props.article;
         const bigArticle = this.props.bigArticle ? 'col-12 col-sm-12 col-md-6' : 'col-6 col-sm-6 col-md-4';
         let customStyles = {
             backgroundColor: this.state.cardStyle.background,
             color: this.state.cardStyle.text,
             height: '100%',
         };
+        const {title,body} = this.props;
         return (
             <div className={bigArticle}>
                 <div className="card mt-4">
                     <div className="card-body" style={customStyles}>
-                        <h3>{article.title}</h3>
+                        <h3>
+                            {((title).length > 15) ? (title).substr(0,15)+'...' : title}
+                            </h3>
                         <p className="card-text">
-                            {(article.text).substr(0,200)}
-                            {((article.text).length > 200) ? '...' : ''}
-                        </p>
-                        <p>
-                            <small className="text-muted">{(new Date(article.date)).toDateString()}</small>
+                            {((body).length > 100) ? (body).substr(0,100)+'...' : body}
                         </p>
                         <div className="d-flex justify-content-between align-items-center">
                             <div className="btn-group">
-                                <button type="button" onClick={() => this.props.select(article)} data-toggle="modal" data-target="#moreModal" className="btn btn-sm btn-outline-secondary">View</button>
+                                <button type="button" onClick={this.showArticle} data-toggle="modal" data-target="#moreModal" className="btn btn-sm btn-outline-secondary">View</button>
                                 <button type="button" onClick={this.handleChangeColor} className="btn btn-sm btn-outline-secondary">Change Color</button>
                             </div>
                         </div>
@@ -73,8 +78,10 @@ class Article extends Component {
     }
 }
 
-function matchDispatchToProps(dispatch) {
-    return bindActionCreators({select: select}, dispatch);
+function mapStateToProps(state) {
+    return {
+        article: state.ArticleDetail
+    }
 }
 
-export default connect('',matchDispatchToProps)(Article);
+export default connect(mapStateToProps)(Article)

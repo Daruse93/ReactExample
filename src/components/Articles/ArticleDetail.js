@@ -1,25 +1,26 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-class ArticleDetail extends Component{
-    render(){
-        if (!this.props.article){
-            return(<p>Article is not selected</p>)
-        }
-        return(
-            <div>
-                <h2>{this.props.article.title}</h2>
-                <p>{(new Date(this.props.article.date)).toDateString()}</p>
-                <p>{this.props.article.text}</p>
-            </div>
+class ArticleDetail extends Component {
+    render() {
+        console.log('ArticleDetail ',this.props.article);
+        return (
+            !this.props.article
+                ?<p>Article is not selected</p>
+                :<div>
+                    <h4>{this.props.article.title}</h4>
+                    <p>
+                        {this.props.article.body}
+                    </p>
+                </div>
         )
     }
 }
 
 function mapStateToProps(state) {
-    return{
-        article: state.ArticleDetail
-    };
+    return {
+        article: state.articleDetail
+    }
 }
 
 export default connect(mapStateToProps)(ArticleDetail);

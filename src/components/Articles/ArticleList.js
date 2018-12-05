@@ -1,18 +1,38 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import Article from "./Article";
+import axios from 'axios';
 import ArticleDetail from "./ArticleDetail";
+import {setArticles} from "../../actions/ArticleActions";
 
 class ArticleList extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            articlesList: [],
             bigArticle: false,
             articleLast: 3,
             articleInterval: 3,
             showMoreButton: true,
         };
+    }
+
+    componentWillMount(){
+        axios.get('https://jsonplaceholder.typicode.com/posts')
+            .then(response => {
+                this.props.dispatch(setArticles(response.data))
+            })
+    }
+
+    componentDidUpdate(prevProps) {
+        if (
+            prevProps.articles !== this.props.articles
+        ) {
+            this.setState({
+                articlesList: this.props.articles
+            })
+        }
     }
 
     handlerArticleSize = () => {
@@ -37,13 +57,18 @@ class ArticleList extends Component {
 
     render() {
         let articles = [];
-        for (let i = 0; i < this.state.articleLast; i++) {
-            articles.push(this.props.articles[i]);
+        let counter = 1;
+        for(let article of this.state.articlesList){
+            if(counter > this.state.articleLast) break;
+            articles.push(article);
+            counter++;
         }
 
-        const articleElement = articles.map(
-            (article, index) => <Article bigArticle={this.state.bigArticle} key={index} article={article}/>
-        );
+        const articleElement = articles.length > 0 ? articles.map(
+            (elem, index) => (
+                <Article key={index} bigArticle={this.state.bigArticle} id={elem.id} date={elem.date} title={elem.title} body={elem.body}/>
+            )
+        ) : "";
 
         const textChangeButton = this.state.bigArticle ? 'Сделать меньше' : 'Сделать крупнее';
         const showMoreButton = this.state.showMoreButton;
@@ -101,7 +126,7 @@ class ArticleList extends Component {
 
 function mapStateToProps(state) {
     return{
-        articles: state.Articles
+        articles: state.articles
     }
 }
 
