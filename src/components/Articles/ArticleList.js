@@ -70,7 +70,7 @@ class ArticleList extends Component {
             )
         ) : "";
 
-        const textChangeButton = this.state.bigArticle ? 'Сделать меньше' : 'Сделать крупнее';
+        const textChangeButton = this.state.bigArticle ? 'Make small cards' : 'Make big cards';
         const showMoreButton = this.state.showMoreButton;
 
         return (
@@ -96,7 +96,7 @@ class ArticleList extends Component {
                         <div className="col">
                             <div className="text-center mt-5">
                                 <button className="btn btn-primary btn-lg" onClick={this.handlerArticleMore}>
-                                    Показать ещё
+                                    Show more
                                 </button>
                             </div>
                         </div>
